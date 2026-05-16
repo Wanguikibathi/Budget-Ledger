@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget Ledger — Classic Enhanced</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark">₿</span>
+        <div>
+          <h1>The Budget Ledger</h1>
+          <p class="tagline">A classic record of income, expense &amp; savings</p>
+        </div>
+      </div>
+      <button id="themeToggle" class="ghost-btn" aria-label="Toggle theme">
+        <span class="dot"></span> Theme
+      </button>
+    </div>
+    <div class="header-rule"></div>
+  </header>
+
+  <main class="container">
+
+    <!-- DASHBOARD -->
+    <section class="dashboard">
+      <article class="card stat">
+        <span class="stat-label">Total Income</span>
+        <p class="stat-value income" id="incomeTotal">Ksh 0</p>
+      </article>
+      <article class="card stat">
+        <span class="stat-label">Total Expenses</span>
+        <p class="stat-value expense" id="expenseTotal">Ksh 0</p>
+      </article>
+      <article class="card stat">
+        <span class="stat-label">Balance</span>
+        <p class="stat-value balance" id="balanceTotal">Ksh 0</p>
+      </article>
+    </section>
+
+    <!-- BUDGET -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Monthly Budget Goal</h2>
+        <span class="ornament">❦</span>
+      </div>
+
+      <div class="budget-controls">
+        <div class="input-group">
+            <label>Amount</label>
+            <input type="number" id="budgetInput" placeholder="e.g. 50000" />
+        </div>
+        <div class="input-group">
+            <label>Start Date</label>
+            <input type="date" id="budgetDate" />
+        </div>
+        <button id="setBudgetBtn" class="primary-btn">Set Budget</button>
+      </div>
+
+      <div class="budget-stats">
+        <div>
+          <span class="stat-label">Budget</span>
+          <p class="stat-value" id="budgetDisplay">Ksh 0</p>
+          <div id="budgetDateDisplay" class="budget-date-display">Not set</div>
+        </div>
+        <div class="vrule"></div>
+        <div>
+          <span class="stat-label">Remaining</span>
+          <p class="stat-value" id="remainingBudget">Ksh 0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMS -->
+    <section class="forms">
+      <div class="panel form-card">
+        <div class="panel-head">
+          <h2>Add Income</h2>
+          <span class="ornament">＋</span>
+        </div>
+        <input type="number" id="incomeAmount" placeholder="Enter income amount" />
+        <input type="date" id="incomeDate" />
+        <button id="addIncomeBtn" class="primary-btn">Record Income</button>
+      </div>
+
+      <div class="panel form-card">
+        <div class="panel-head">
+          <h2>Add Expense</h2>
+          <span class="ornament">−</span>
+        </div>
+        <input type="number" id="expenseAmount" placeholder="Enter expense amount" />
+        <select id="expenseCategory">
+          <option>Food</option><option>Rent</option><option>Shopping</option>
+          <option>Clothes</option><option>Insurance</option><option>Transport</option>
+          <option>Internet</option><option>Entertainment</option><option>Savings</option>
+          <option>Healthcare</option><option>Education</option><option>Other</option>
+        </select>
+        <input type="date" id="expenseDate" />
+        <button id="addExpenseBtn" class="primary-btn">Record Expense</button>
+      </div>
+    </section>
+
+    <!-- AI BUDGET ASSISTANT -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>AI Budget Assistant</h2>
+        <span class="ornament">✦</span>
+      </div>
+      <div class="chat-container">
+        <div id="aiChatHistory" class="chat-history">
+            <div class="message ai-message">Awaiting data to generate insights...</div>
+        </div>
+        <div class="chat-input-group">
+            <input type="text" id="aiQuestionInput" placeholder="e.g. How much did I spend on food?" />
+            <button id="askAiBtn" class="primary-btn">Ask</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSACTIONS -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Ledger Entries</h2>
+        <span class="ornament">§</span>
+      </div>
+      <ul id="transactionList" class="ledger"></ul>
+      <p id="emptyState" class="empty-state">No entries yet. Begin your ledger above.</p>
+    </section>
+
+    <!-- EXPENSE BREAKDOWN CHART -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Expense Breakdown</h2>
+        <span class="ornament">◈</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="expenseChart"></canvas>
+      </div>
+    </section>
+
+    <!-- MONTHLY HISTORY & TRENDS -->
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Monthly History (JAN-DEC)</h2>
+        <span class="ornament">📅</span>
+      </div>
+      <div class="chart-wrap-wide">
+        <canvas id="historyChart"></canvas>
+      </div>
+      <p style="text-align:center; color:var(--muted); font-size:13px; margin-top:10px; font-style:italic;">
+        Visualizing spending trends and month-to-month comparisons.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <span>— Kept with care —</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
